@@ -1,6 +1,5 @@
 package challenges.day01;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import aocutil.io.FileReader;
