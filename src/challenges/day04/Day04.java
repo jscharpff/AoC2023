@@ -57,7 +57,8 @@ public class Day04 {
 			final ScratchCard sc = ScratchCard.fromString( s );
 			cards[ sc.ID - 1]++;
 			
-			// for every winning number, add a new successive card to the pile
+			// for every winning number on this card, add a new successive card to
+			// the pile for every copy we have of this card 
 			for( int i = 0; i < sc.getWins( ); i++ )
 				cards[ sc.ID + i ] += cards[ sc.ID - 1 ];
 		}
