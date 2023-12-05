@@ -134,14 +134,16 @@ public class Almanac {
 				// does the current rule apply to this range? If not, skip it
 				if( rule.range.highest < curr) continue;
 				
-				// yes, add part up to start of rule
-				if( rule.range.lowest > curr )
-					R.add( new Range( curr, rule.range.lowest - 1 ) );
+				// yes, add range from current to start of this rule
+				if( rule.range.lowest > curr ) R.add( new Range( curr, rule.range.lowest - 1 ) );
 				
-				// and add part corresponding to applying the rule (including the
-				// actual transformation of values)
+				// then add part corresponding to applying the rule (including the
+				// actual transformation of values). Also make sure we do not expand
+				// the range beyond the highest value in the input range.
 				final long end = Math.min( rule.range.highest, range.highest ); 
 				R.add( new Range( curr + rule.tr, end + rule.tr  ) );
+				
+				// move current index to just after the most recently added range
 				curr = end + 1;
 			}
 			
@@ -187,7 +189,7 @@ public class Almanac {
 		 * Creates a new transformation rule
 		 * 
 		 * @param start The input start value of this rule
-		 * @param outp The output start value of this rule 
+		 * @param out The output start value of this rule 
 		 * @param size The amount of numbers spanned by this rule from start to
 		 *   start + size -1
 		 */
