@@ -201,17 +201,17 @@ public class PipeMaze {
 	 * @param M The grid to mark, it will be modified in place by the algorithm
 	 */
 	private void markOutside( final CoordGrid<Character> M ) {
-		// start top-left and find all reachable tiles in the expanded maze,
-		// possibly crawling along/between the walls of the original pipe maze
+		// find all reachable tiles in the expanded maze, crawling along/between
+		// the walls of the original pipe maze
 		// use the dimensions of the original maze as outer bounds for the marking
+		// to make sure all original coordinates can be mapped onto the expanded one 
 		final Window2D border = new Window2D( -1, -1, maze.window( ).getMaxX( ) * 2 + 1, maze.window( ).getMaxY( ) * 2 + 1 );
-		final Coord2D start = border.getMinCoord( );
 		
 		// keep track of current tiles to explore and keep a history of past
-		// tiles
+		// tiles, start top left outside the maze
 		final Set<Coord2D> visited = new HashSet<>( );
 		final Stack<Coord2D> curr = new Stack<>( );
-		curr.add( start );
+		curr.add( border.getMinCoord( ) );
 		
 		// keep going until we find no more empty tiles to move
 		while( !curr.empty( ) ) {
@@ -226,7 +226,7 @@ public class PipeMaze {
 					// we can only move to empty tiles
 					if( M.hasValue( nc ) ) continue;
 					
-					// seen before and still within grid area?
+					// seen before or not within grid area? don't explore here
 					if( visited.contains( nc ) || !border.contains( nc ) ) continue;
 					
 					// not visited before, mark as visited and explore further next round
