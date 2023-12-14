@@ -55,11 +55,11 @@ public class SpringConfigurator {
 		
 		// keep track of the minimum required size to fit the remaining blocks to
 		// help identify invalid configurations quickly (i.e., no more space to fit
-		// all remaining blocks) 
+		// all remaining blocks anyway) 
 		int B = blocks.stream( ).mapToInt( x -> x ).sum( ) + blocks.size( ) - 1;
 
-		// generate all unique next state from this state by fixing the first block
-		// and keep track of count per state
+		// generate all unique next states from this state by fixing the first
+		// block and keep track of count per state
 		while( !blockstack.isEmpty( ) ) {
 			final Map<String, Long> Snew = new HashMap<String, Long>( );
 			
@@ -73,7 +73,7 @@ public class SpringConfigurator {
 					if( !fits( state, i, block ) ) continue;
 					
 					// new valid configuration for this block, add it as a next state
-					final String key = 'X'+ state.substring( i + block );
+					final String key = state.substring( Math.min( i + block + 1, state.length( ) ) );
 					configs.put( key, configs.getOrDefault( key, 0l ) + 1 );
 				}
 
@@ -109,13 +109,12 @@ public class SpringConfigurator {
 		// would the block fit at all?
 		if( idx + blocksize > springlayout.length( ) ) return false;
 		
-		// the block can't start or end just before any mandatory spring
+		// the block can't end just before any mandatory spring
 		final int afteridx = idx + blocksize;
-		if( idx > 0 && springlayout.charAt( idx - 1 ) == 'X' ) return false;
 		if( springlayout.length( ) > afteridx && springlayout.charAt( afteridx ) == '#' ) return false;
 		
-		// can't put a block over a dash or other block
-		for( int i = idx; i < idx + blocksize; i++ ) if( springlayout.charAt( i ) != '?' && springlayout.charAt( i ) != '#' ) return false;
+		// can't put a block over a dash
+		for( int i = idx; i < idx + blocksize; i++ ) if( springlayout.charAt( i ) == '.' ) return false;
 		
 		// would the block invalidate a passed block in the spring set?
 		for( int i = 0; i < idx; i++ ) if( springlayout.charAt( i ) == '#' ) return false;
