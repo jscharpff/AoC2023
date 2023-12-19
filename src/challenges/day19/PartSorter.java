@@ -209,7 +209,7 @@ public class PartSorter {
 		}		
 		
 		/**
-		 * @return The product of all attribute ranges
+		 * @return The product of all attribute range sizes
 		 */
 		protected long prod( ) {
 			long p = 1;
@@ -221,7 +221,7 @@ public class PartSorter {
 	}
 	
 	/**
-	 * Simple data structure to hold a part with attribues
+	 * Simple data structure to hold a part with attributes
 	 * 
 	 * @author Joris
 	 *
