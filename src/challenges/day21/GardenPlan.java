@@ -113,6 +113,7 @@ public class GardenPlan {
 		// allows fast computation of future counts
 		final Map<Long, Long> values = new HashMap<>( );	
 		final LinkedList<Long> dsum = new LinkedList<>( );
+		boolean isstable = false;
 		
 		// do a breadth-first exploration
 		final Set<Coord2D> V = new HashSet<>( );
@@ -173,9 +174,8 @@ public class GardenPlan {
 			// pattern? This is possible if we have enough samples, all differences
 			// are now equal and the number of steps is an integer product of the
 			// current distance
-			if( dsum.size( ) == M && dsum.stream( ).allMatch( ds -> ds == dsum.getFirst( ).longValue( ) )
-					&& steps % M == d % M	) {
-				
+			if( !isstable ) isstable = dsum.size( ) == M && dsum.stream( ).allMatch( ds -> ds == dsum.getFirst( ).longValue( ) );
+			if( isstable && steps % M == d % M	) {
 				// yes, extrapolate value based upon known values
 				final long n = (steps - d) / M;
 				final long dM = values.get( d ) - values.get( d - M );
