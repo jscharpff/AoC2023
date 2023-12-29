@@ -80,7 +80,7 @@ public class Day05 {
 		long min = Long.MAX_VALUE;
 		for( final Range r : sr ) {
 			final List<Range> out = A.getLocationRanges( r );
-			long minout = out.stream( ).mapToLong( o -> o.lowest ).min( ).getAsLong( );
+			long minout = out.stream( ).mapToLong( o -> o.min ).min( ).getAsLong( );
 			if( minout < min ) min = minout;
 		}
 		return min;

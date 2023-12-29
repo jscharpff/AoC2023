@@ -124,23 +124,23 @@ public class Almanac {
 			// start with an empty output set and begin at the start of the input
 			// range
 			final List<Range> R = new ArrayList<>( );
-			long curr = range.lowest;
+			long curr = range.min;
 			
 			// go over rules to determine all transformed ranges
 			for( final AlmanacRule rule : rules ) {
 				// did we reach the end of the input range before running out of rules?
-				if( curr >= range.highest ) break;
+				if( curr >= range.max ) break;
 				
 				// does the current rule apply to this range? If not, skip it
-				if( rule.range.highest < curr) continue;
+				if( rule.range.max < curr) continue;
 				
 				// yes, add range from current to start of this rule
-				if( rule.range.lowest > curr ) R.add( new Range( curr, rule.range.lowest - 1 ) );
+				if( rule.range.min > curr ) R.add( new Range( curr, rule.range.min - 1 ) );
 				
 				// then add part corresponding to applying the rule (including the
 				// actual transformation of values). Also make sure we do not expand
 				// the range beyond the highest value in the input range.
-				final long end = Math.min( rule.range.highest, range.highest ); 
+				final long end = Math.min( rule.range.max, range.max ); 
 				R.add( new Range( curr + rule.tr, end + rule.tr  ) );
 				
 				// move current index to just after the most recently added range
@@ -148,7 +148,7 @@ public class Almanac {
 			}
 			
 			// add remaining range (if necessary)
-			if( curr < range.highest ) R.add( new Range( curr, range.highest ) );
+			if( curr < range.max ) R.add( new Range( curr, range.max ) );
 			return R;
 		}
 		
