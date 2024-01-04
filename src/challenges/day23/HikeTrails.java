@@ -67,19 +67,19 @@ public class HikeTrails {
 		
 		// now build APLP from every point of interest to all reachable ones, 
 		// starting from the start coordinate
-		final Map<Coord2D, List<Path>> APLP = new HashMap<>( );
+		final Map<Coord2D, List<Path>> AP = new HashMap<>( );
 		while( !rem.isEmpty( ) ) {
 			final Coord2D c = rem.pop( );
 			final List<Path> P = buildAPLP( c );
-			APLP.put( c, P );
+			AP.put( c, P );
 			
 			// check trail ends for the coordinates to explore next
 			for( final Path next : P ) {
-				if( !APLP.containsKey( next.to ) ) rem.push( next.to );
+				if( !AP.containsKey( next.to ) ) rem.push( next.to );
 			}
 		}
 		
-		return APLP;
+		return AP;
 	}
 	
 	/**

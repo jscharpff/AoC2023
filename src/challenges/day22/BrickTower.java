@@ -177,8 +177,8 @@ public class BrickTower {
 			F.add( this );
 			
 			// start by trying to tumble all bricks resting on me
-			for( final Brick b : supports )
-				if( b.shouldFall( F ) ) B.push( b );
+			for( final Brick br : supports )
+				if( br.shouldFall( F ) ) B.push( br );
 			
 			// keep on tumbling bricks until all bricks have fallen or the remaining
 			// bricks are supported by at least one brick that is not affected by
@@ -186,8 +186,8 @@ public class BrickTower {
 			while( !B.isEmpty( ) ) {
 				// tumble the next unsupported brick and add all new falling bricks to
 				// the set of fallen so far
-				final Brick b = B.pop( );
-				F.addAll( b.tumble( ) );
+				final Brick br = B.pop( );
+				F.addAll( br.tumble( ) );
 				
 				// then use the set of fallen bricks to determine potential new bricks
 				// that now lack support, which are tumbled in the next iteration
